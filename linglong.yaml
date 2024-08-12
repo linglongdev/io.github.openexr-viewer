@@ -1,0 +1,48 @@
+version: "1"
+
+package:
+  id: io.github.openexr-viewer
+  name: openexr-viewer
+  version: 0.6.1.1
+  kind: app
+  description: |
+    Simple viewer for OpenEXR files with detailed metadata display
+
+command:
+  - /opt/apps/io.github.openexr-viewer/files/bin/openexr-viewer
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/afichet/openexr-viewer.git
+    version: master
+    commit: 4f3b278ce4591e0cfbbee5f0fac5774b69a1df96
+  - kind: git
+    url: https://github.com/AcademySoftwareFoundation/Imath.git
+    version: master
+    commit: 8c1d11f1718e3dbef13e06c69ed788c0938cb504
+  - kind: git
+    url: https://github.com/AcademySoftwareFoundation/openexr.git
+    version: master
+    commit: 466d78644b1b44aad880d404e82acd6b5076b705
+build: |
+  cd /project/linglong/sources/Imath.git
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install
+  cd /project/linglong/sources/openexr.git
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install
+  cd /project/linglong/sources/openexr-viewer.git
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install
